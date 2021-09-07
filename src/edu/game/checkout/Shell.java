@@ -14,17 +14,10 @@ public class Shell extends GameObject {
         speed = 3;
     }
 
-    public Rectangle getRect() {
-        return new Rectangle((int) x, (int) y, width, height);
-    }
-
-    public void draw(Graphics g) {
-        //将外部传入对象g的状态保存好
-        Color c = g.getColor();
-        g.setColor(Color.yellow);
-
-        g.fillOval((int) x, (int) y, width, height);
-
+//    public Rectangle getRect() {
+//        return new Rectangle((int) x, (int) y, width, height);
+//    }
+    public void move(){
         //炮弹沿着任意角度飞行
         x += speed * Math.cos(degree);
         y += speed * Math.sin(degree);
@@ -36,6 +29,16 @@ public class Shell extends GameObject {
         if (x < 0 || x > Constant.GAME_WIDTH - width) {
             degree = Math.PI - degree;
         }
+    }
+
+    public void draw(Graphics g) {
+        //将外部传入对象g的状态保存好
+        Color c = g.getColor();
+        g.setColor(Color.yellow);
+        g.fillOval((int) x, (int) y, width, height);
+
+        move();
+
         //返回给外部，变回以前的颜色
         g.setColor(c);
     }

@@ -7,7 +7,7 @@ public class ms extends GameObject {
 
     Image deadImg = GameUtil.getImage("images/dead.png");
 
-    boolean left, up, right, down;
+    boolean left, up, right, down, left_state, up_state, right_state, down_state;
     boolean live = true;
 
     // 按下上下左右键，则改变方向值。
@@ -42,19 +42,17 @@ public class ms extends GameObject {
             super.drawMySelf(g);
 
             //如下代码，用来实现边界检测
-            if (y > Constant.GAME_HEIGHT - height || y < 30) {
-                if (left) x -= speed;
-                if (right) x += speed;
-            } else if (x < 0 || x > Constant.GAME_WIDTH - width) {
-                if (up) y -= speed;
-                if (down) y += speed;
-            } else {
-                // 根据方向，计算飞机新的坐标
-                if (left) x -= speed;
-                if (right) x += speed;
-                if (up) y -= speed;
-                if (down) y += speed;
-            }
+            down_state = y <= Constant.GAME_HEIGHT - height;
+            up_state = y >= 30;
+            left_state = x >= 0;
+            right_state = x <= Constant.GAME_WIDTH - width;
+            
+            // 根据方向，计算飞机新的坐标
+            if (left && left_state) x -= speed;
+            if (right && right_state) x += speed;
+            if (up && up_state) y -= speed;
+            if (down && down_state) y += speed;
+
         } else {
             super.drawMySelf(g);
             death(g);

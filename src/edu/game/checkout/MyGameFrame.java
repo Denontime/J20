@@ -12,6 +12,10 @@ import java.util.Date;
 
 public class MyGameFrame extends JFrame {
 
+    Date startTime = new Date();        //游戏起始时刻
+    Date endTime;                       //游戏结束时刻
+
+
     //将背景图片与飞机图片定义为成员变量
     Image bgImg = GameUtil.getImage("images/bg.jpeg");
     Image msImg = GameUtil.getImage("images/mushroom.png");
@@ -19,16 +23,7 @@ public class MyGameFrame extends JFrame {
     ms msa = new ms(msImg, 320, 250, 10);
 
     ArrayList<Shell> shellList = new ArrayList<>();
-
-    int ms_x;
-    int ms_y;
-    Date startTime = new Date();        //游戏起始时刻
-    Date endTime;                       //游戏结束时刻
-
-    public MyGameFrame() {
-        ms_x = 320;
-        ms_y = 250;
-    }
+    ArrayList<Score> scoreList = new ArrayList<>();
 
     //paint方法作用是：画出整个窗口及内部内容。被系统自动调用。
     @Override
@@ -38,7 +33,7 @@ public class MyGameFrame extends JFrame {
 
         bg.drawImage(bgImg, 0, 0, null);
         msa.drawMySelf(bg);
-        //bg.drawImage(msImg, ms_x, ms_y, null);
+
         for (Shell b : shellList) {
             b.draw(bg);
             //飞机和所有炮弹对象进行矩形检测
@@ -49,6 +44,18 @@ public class MyGameFrame extends JFrame {
                     endTime = new Date();
                 }
             }
+        }
+
+        for (Score s : scoreList) {
+            s.draw(bg);
+            //飞机和所有炮弹对象进行矩形检测
+//            boolean touch = b.getRect().intersects(msa.getRect());
+//            if (touch) {
+//                if (msa.live){
+//                    msa.live = false;   //飞机死掉,红叉出现
+//                    endTime = new Date();
+//                }
+//            }
         }
 
         if (!msa.live) {
@@ -133,9 +140,13 @@ public class MyGameFrame extends JFrame {
         new PaintThread().start();          //启动重画线程
 
         //初始化，生成一堆炮弹
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
             Shell boom = new Shell();
             shellList.add(boom);
+        }
+        for (int i = 0; i < 1; i++) {
+            Score fruit = new Score();
+            scoreList.add(fruit);
         }
     }
 
