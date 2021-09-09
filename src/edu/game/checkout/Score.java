@@ -4,6 +4,7 @@ import java.awt.*;
 
 public class Score extends Shell {
     double degree;
+    boolean live = true;
 
     public Score() {
         this.degree = Math.random() * Math.PI;
@@ -15,15 +16,17 @@ public class Score extends Shell {
     }
 
     public void draw(Graphics g) {
-        //将外部传入对象g的状态保存好
-        Color c = g.getColor();
-        g.setColor(Color.blue);
-        g.fillOval((int) x, (int) y, width, height);
+        if (live) {
+            //将外部传入对象g的状态保存好
+            Color c = g.getColor();
+            g.setColor(Color.blue);
+            g.fillOval((int) x, (int) y, width, height);
 
-        move();
+            super.move();
 
-        //返回给外部，变回以前的颜色
-        g.setColor(c);
+            //返回给外部，变回以前的颜色
+            g.setColor(c);
+        }
     }
 
 }

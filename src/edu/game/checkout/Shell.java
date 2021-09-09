@@ -14,10 +14,10 @@ public class Shell extends GameObject {
         speed = 3;
     }
 
-//    public Rectangle getRect() {
+    //    public Rectangle getRect() {
 //        return new Rectangle((int) x, (int) y, width, height);
 //    }
-    public void move(){
+    public void move() {
         //炮弹沿着任意角度飞行
         x += speed * Math.cos(degree);
         y += speed * Math.sin(degree);

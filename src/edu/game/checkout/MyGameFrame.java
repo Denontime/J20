@@ -19,11 +19,12 @@ public class MyGameFrame extends JFrame {
     //将背景图片与飞机图片定义为成员变量
     Image bgImg = GameUtil.getImage("images/bg.jpeg");
     Image msImg = GameUtil.getImage("images/mushroom.png");
+    int score = 0;
 
     ms msa = new ms(msImg, 320, 250, 10);
 
     ArrayList<Shell> shellList = new ArrayList<>();
-    ArrayList<Score> scoreList = new ArrayList<>();
+    ArrayList<Score> pointList = new ArrayList<>();
 
     //paint方法作用是：画出整个窗口及内部内容。被系统自动调用。
     @Override
@@ -33,29 +34,33 @@ public class MyGameFrame extends JFrame {
 
         bg.drawImage(bgImg, 0, 0, null);
         msa.drawMySelf(bg);
+        printInfo(bg, "Score:", 25, 600, 50, Color.red);
+        printInfo(bg, String.valueOf(score), 25, 680, 50, Color.red);
 
         for (Shell b : shellList) {
             b.draw(bg);
             //飞机和所有炮弹对象进行矩形检测
             boolean touch = b.getRect().intersects(msa.getRect());
             if (touch) {
-                if (msa.live){
+                if (msa.live) {
                     msa.live = false;   //飞机死掉,红叉出现
                     endTime = new Date();
                 }
             }
         }
 
-        for (Score s : scoreList) {
+        for (Score s : pointList) {
             s.draw(bg);
-            //飞机和所有炮弹对象进行矩形检测
-//            boolean touch = b.getRect().intersects(msa.getRect());
-//            if (touch) {
-//                if (msa.live){
-//                    msa.live = false;   //飞机死掉,红叉出现
-//                    endTime = new Date();
-//                }
-//            }
+            //飞机和所有果子对象进行矩形检测
+            boolean point = s.getRect().intersects(msa.getRect());
+            if (point) {
+                if (msa.live) {
+                    if (s.live) {
+                        score++;
+                        s.live = false;
+                    }
+                }
+            }
         }
 
         if (!msa.live) {
@@ -144,9 +149,9 @@ public class MyGameFrame extends JFrame {
             Shell boom = new Shell();
             shellList.add(boom);
         }
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 10; i++) {
             Score fruit = new Score();
-            scoreList.add(fruit);
+            pointList.add(fruit);
         }
     }
 
